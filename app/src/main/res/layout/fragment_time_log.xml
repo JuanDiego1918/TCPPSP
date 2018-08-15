@@ -28,6 +28,73 @@
             android:layout_columnSpan="2"
             android:layout_columnWeight="2">
         </Spinner>
+    </GridLayout>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:layout_marginBottom="15dp">
+
+        <Button android:layout_columnWeight="1"
+            android:layout_columnSpan="1"
+            android:layout_width="22dp"
+            android:id="@+id/btnStartTime"
+            android:text="START"/>
+
+        <EditText android:layout_columnWeight="2"
+            android:id="@+id/campoStartTime"
+            android:gravity="center_horizontal"
+            android:layout_columnSpan="2"
+            android:editable="false"/>
+
+        <EditText android:layout_columnWeight="3"
+            android:id="@+id/campoInterruptionTime"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_columnSpan="3"
+            android:hint="INTERRUPTION"/>
+
+
+        <Button android:layout_columnWeight="1"
+            android:layout_columnSpan="1"
+            android:layout_width="22dp"
+            android:id="@+id/btnStopTime"
+            android:text="STOP"/>
+
+        <EditText android:layout_columnWeight="2"
+            android:id="@+id/campoStopTime"
+            android:gravity="center_horizontal"
+            android:layout_columnSpan="2"
+            android:editable="false"/>
+
+
+        <EditText android:layout_columnWeight="3"
+            android:id="@+id/campoDeltaTime"
+            android:hint="DELTA"
+            android:gravity="center_horizontal"
+            android:layout_columnSpan="3"
+            android:editable="false"/>
+    </GridLayout>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:layout_marginTop="22dp">
+
+        <EditText android:layout_columnWeight="3"
+            android:hint="COMMENTS"
+            android:id="@+id/campoCommentsTime"
+            android:gravity="center_horizontal"
+            android:inputType="textMultiLine"
+            android:layout_columnSpan="3"/>
+
+        <Button android:layout_columnWeight="3"
+            android:layout_columnSpan="3"
+            android:layout_width="22dp"
+            android:id="@+id/btnRegistrarTime"
+            android:text="REGISTRAR" />
 
     </GridLayout>
 
