@@ -3,27 +3,87 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
+    android:padding="12dp"
     android:layout_height="match_parent"
     tools:context=".fragments.DefectLog">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:padding="12dp"
         android:textSize="22dp"
         android:textColor="#000"
         android:text="DEFECT LOG" />
 
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:layout_marginBottom="15dp">
 
+        <Button android:layout_columnWeight="1"
+            android:layout_columnSpan="1"
+            android:layout_width="22dp"
+            android:text="Date"/>
+
+        <EditText android:layout_columnWeight="2"
+            android:layout_columnSpan="2"
+            android:editable="false"/>
+
+    </GridLayout>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:columnCount="3">
+
+        <Spinner
+            android:layout_height="wrap_content"
+            android:layout_columnSpan="2"
+            android:layout_columnWeight="2"
+            android:layout_marginBottom="10dp">
+        </Spinner>
+
+        <Spinner
+            android:layout_columnWeight="2"
+            android:layout_columnSpan="2"
+            android:layout_marginBottom="10dp">
+        </Spinner>
+
+        <Spinner
+            android:layout_columnWeight="2"
+            android:layout_columnSpan="2"
+            android:layout_marginBottom="10dp">
+        </Spinner>
+
+    </GridLayout>
 
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:columnCount="3">
 
-    </GridLayout>
+        <EditText android:layout_columnWeight="3"
+            android:layout_columnSpan="3"
+            android:editable="false"/>
 
+        <Button android:layout_columnWeight="1"
+            android:layout_columnSpan="1"
+            android:layout_width="22dp"
+            android:text="Start"/>
+
+        <Button android:layout_columnWeight="1"
+            android:layout_columnSpan="1"
+            android:layout_width="22dp"
+            android:text="Stop"/>
+        <Button android:layout_columnWeight="1"
+            android:layout_columnSpan="1"
+            android:layout_width="22dp"
+            android:text="Restart"/>
+
+    </GridLayout>
 
 </LinearLayout>
