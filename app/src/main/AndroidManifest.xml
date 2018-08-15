@@ -20,7 +20,7 @@
         <activity
             android:name=".principal.Tabbed"
             android:label="TSP/PSP"
-            android:parentActivityName=".principal.MainActivity" />
+            android:parentActivityName=".principal.Secundaria" />
         <activity android:name=".principal.Tercera"
             android:parentActivityName=".principal.Secundaria"></activity>
     </application>
