@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,6 +70,8 @@ public class DefectLog extends Fragment {
     ArrayList arrayInjected;
     ArrayList arrayRemoved;
     ////////////////////////////////
+    long dato;
+    boolean inciar;
 
     /**
      * Use this factory method to create a new instance of
@@ -195,12 +198,6 @@ public class DefectLog extends Fragment {
         start = view.findViewById(R.id.star);
         stop=view.findViewById(R.id.stop);
         restart=view.findViewById(R.id.restart);
-        start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tiempoStar();
-            }
-        });
         campoDate = view.findViewById(R.id.campoDateDefect);
         campoDefectDescription = view.findViewById(R.id.campoDefectDescription);
         btnDate = view.findViewById(R.id.btnDateDefec);
@@ -215,6 +212,24 @@ public class DefectLog extends Fragment {
             @Override
             public void onClick(View v) {
                 registrarDefecto();
+            }
+        });
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tiempoStar();
+            }
+        });
+        stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tiempoStop();
+            }
+        });
+        restart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timeRestart();
             }
         });
 
@@ -244,9 +259,43 @@ public class DefectLog extends Fragment {
             long registroExitoso = db.insert(Utilidades.NOMBRE_TABLA_DEFECT, Utilidades.CAMPO_ID, values);
         }
     }
-    private void tiempoStar() {
-        tiempo.start();
 
+    private void timeRestart() {
+        tiempo.setBase(SystemClock.elapsedRealtime());
+        tiempo.stop();
+        inciar=false;
+    }
+    private void tiempoStop() {
+        if (inciar==true) {
+            tiempo.stop();
+            dato = ((SystemClock.elapsedRealtime() - tiempo.getBase()) / 1000);
+            if (dato > 60) {
+                dato = dato / 60;
+            }
+            Toast.makeText(getContext(), "" + dato, Toast.LENGTH_SHORT).show();
+            inciar=false;
+        }else {
+            Toast.makeText(getContext(), "Primero inicie el tiempo", Toast.LENGTH_SHORT).show();
+        }
+    }
+    private void tiempoStar() {
+        inciar=true;
+        int stoppedMilliseconds = 0;
+        String chronoText = tiempo.getText().toString();
+        String array[] = chronoText.split(":");
+        if (array.length == 2) {
+            stoppedMilliseconds = Integer.parseInt(array[0]) * 60 *
+                    1000
+                    + Integer.parseInt(array[1]) * 1000;
+        } else if (array.length == 3) {
+            stoppedMilliseconds = Integer.parseInt(array[0]) * 60 * 60
+                    * 1000
+                    + Integer.parseInt(array[1]) * 60 * 1000
+                    + Integer.parseInt(array[2]) * 1000;
+        }
+        tiempo.setBase(SystemClock.elapsedRealtime() -
+                stoppedMilliseconds);
+        tiempo.start();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -287,4 +336,5 @@ public class DefectLog extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }
