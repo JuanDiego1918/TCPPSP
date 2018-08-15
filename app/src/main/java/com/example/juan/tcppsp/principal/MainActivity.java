@@ -1,6 +1,7 @@
 package com.example.juan.tcppsp.principal;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
@@ -30,8 +31,7 @@ public class MainActivity extends AppCompatActivity {
     String nombreP, tiempoD;
     ArrayList<proyectosVo> listaProyectos;
     proyectosVo miProyectosVo;
-
-
+    proyectosAdapter proyectosAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,23 +39,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         conn = new conexion(this, "proyectos", null, 1);
-        listaProyectos=new ArrayList<>();
+
 
         tiempoDemora = findViewById(R.id.campoTiempoProyecto);
         nombreProyecto = findViewById(R.id.campoNombreProyecto);
         registrar = findViewById(R.id.btnRegistrarProyectos);
         recyclerViewProyectos = findViewById(R.id.recyclerProyectos);
 
-        proyectosAdapter proyectosAdapter=new proyectosAdapter(listaProyectos);
-
-        recyclerViewProyectos.setAdapter(proyectosAdapter);
-
+        consultarProyecto();
         registrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 registrarProyecto();
             }
         });
+
+
 
 
     }
@@ -69,31 +68,53 @@ public class MainActivity extends AppCompatActivity {
         if (nombreP.equals("") || tiempoD.equals("")) {
             Toast.makeText(getApplicationContext(), "Llene todos los campos", Toast.LENGTH_SHORT).show();
         } else {
-            values.put(Utilidades.CAMPO_NOMBRE_PROYECTO, tiempoD);
+            values.put(Utilidades.CAMPO_NOMBRE_PROYECTO, nombreP);
             values.put(Utilidades.CAMPO_TIEMPO, tiempoD);
             values.put(Utilidades.CAMPO_ID, numeroProyectos);
 
             long registroExitoso = bd.insert(Utilidades.NOMBRE_TABLA_PROYECTOS, Utilidades.CAMPO_ID, values);
-            if (registroExitoso == 1) {
-                Toast.makeText(getApplicationContext(), "Registro Exitoso ", Toast.LENGTH_SHORT).show();
-                numeroProyectos++;
-                consultarProyecto();
-            } else {
-                Toast.makeText(getApplicationContext(), "Registro No Exitoso ", Toast.LENGTH_SHORT).show();
-            }
+
+            Toast.makeText(getApplicationContext(), "Registro Exitoso ", Toast.LENGTH_SHORT).show();
+            numeroProyectos++;
+            consultarProyecto();
+            nombreProyecto.setText(null);
+            tiempoDemora.setText(null);
+            nombreP="";
+            tiempoD="";
+
         }
     }
 
     private void consultarProyecto() {
-        bd=conn.getReadableDatabase();
+        listaProyectos = new ArrayList<>();
+        bd = conn.getReadableDatabase();
 
-        Cursor cursor=bd.rawQuery("SELECT * FROM "+Utilidades.NOMBRE_TABLA_PROYECTOS,null);
 
-        while (cursor.moveToNext()){
-            miProyectosVo=new proyectosVo();
+        Cursor cursor = bd.rawQuery("SELECT * FROM " + Utilidades.NOMBRE_TABLA_PROYECTOS, null);
+
+        while (cursor.moveToNext()) {
+            miProyectosVo = new proyectosVo();
             miProyectosVo.setNombre(cursor.getString(0));
+            miProyectosVo.setId(cursor.getInt(1));
+            numeroProyectos= cursor.getInt(1)+1;
             listaProyectos.add(miProyectosVo);
         }
 
+        proyectosAdapter = new proyectosAdapter(listaProyectos);
+        recyclerViewProyectos.setAdapter(proyectosAdapter);
+
+        proyectosAdapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent miIntent=new Intent(MainActivity.this,Secundaria.class);
+                Bundle miBundle=new Bundle();
+                miBundle.putInt("id",listaProyectos.get(recyclerViewProyectos.getChildAdapterPosition(v)).getId());
+                miBundle.putString("nombre",listaProyectos.get(recyclerViewProyectos.getChildAdapterPosition(v)).getNombre());
+
+                miIntent.putExtra("proyecto",miBundle);
+
+                startActivity(miIntent);
+            }
+        });
     }
 }
