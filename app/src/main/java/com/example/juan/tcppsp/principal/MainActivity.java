@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.example.juan.tcppsp.R;
 import com.example.juan.tcppsp.Utilidades.Utilidades;
-import com.example.juan.tcppsp.Utilidades.conexion;
+import com.example.juan.tcppsp.Utilidades.Conexion;
 import com.example.juan.tcppsp.Utilidades.proyectosVo;
 import com.example.juan.tcppsp.adapter.proyectosAdapter;
 
@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     EditText tiempoDemora, nombreProyecto;
     Button registrar;
     RecyclerView recyclerViewProyectos;
-    conexion conn;
+    Conexion conn;
     SQLiteDatabase bd;
     int numeroProyectos = 1;
     String nombreP, tiempoD;
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        conn = new conexion(this, "proyectos", null, 1);
+        conn = new Conexion(this, "proyectos", null, 1);
 
 
         tiempoDemora = findViewById(R.id.campoTiempoProyecto);
@@ -54,14 +54,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-
     }
 
     private void registrarProyecto() {
         bd = conn.getWritableDatabase();
-
         ContentValues values = new ContentValues();
         nombreP = nombreProyecto.getText().toString();
         tiempoD = tiempoDemora.getText().toString();

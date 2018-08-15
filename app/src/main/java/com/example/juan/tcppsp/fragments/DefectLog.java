@@ -1,24 +1,30 @@
 package com.example.juan.tcppsp.fragments;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Chronometer;
-import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.juan.tcppsp.R;
+import com.example.juan.tcppsp.Utilidades.Conexion;
+import com.example.juan.tcppsp.Utilidades.Utilidades;
 
-import java.text.DateFormat;
-import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.zip.DataFormatException;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,18 +43,32 @@ public class DefectLog extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
     private OnFragmentInteractionListener mListener;
-
     public DefectLog() {
         // Required empty public constructor
     }
-
+    Conexion conn;
+    SQLiteDatabase db;
+    ////////////////////////////////
+    String seleccionaType;
+    String seleccionaInjected;
+    String fecha;
+    String seleccionaRemoved;
+    String defectDecriptionR;
+    ////////////////////////////////
+    EditText campoDate,campoDefectDescription;
+    ////////////////////////////////
     View view;
     Chronometer tiempo;
-    Button start, stop, restart;
-    boolean inciar, despausa;
-    long dato;
+    Button start, stop, restart,btnRegistrar,btnDate;
+    ////////////////////////////////
+    Spinner listaType;
+    Spinner listaInjected;
+    Spinner listaRemoved;
+    ArrayList arrayType;
+    ArrayList arrayInjected;
+    ArrayList arrayRemoved;
+    ////////////////////////////////
 
     /**
      * Use this factory method to create a new instance of
@@ -80,71 +100,151 @@ public class DefectLog extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         view = inflater.inflate(R.layout.fragment_defect_log, container, false);
+        conn = new Conexion(getContext(), "proyectos", null, 1);
+
+        arrayType = new ArrayList();
+        arrayType.add("Type");
+        arrayType.add("Documentation");
+        arrayType.add("Syntax");
+        arrayType.add("Build");
+        arrayType.add("Package");
+        arrayType.add("Assigment");
+        arrayType.add("Interface");
+        arrayType.add("Checking");
+        arrayType.add("Function");
+        arrayType.add("System");
+        arrayType.add("Environment");
+
+        arrayInjected = new ArrayList();
+        arrayInjected.add("Phase injected");
+        arrayInjected.add("PLAN");
+        arrayInjected.add("DLD");
+        arrayInjected.add("CODE");
+        arrayInjected.add("COMPILE");
+        arrayInjected.add("UT");
+        arrayInjected.add("PM");
+
+        arrayRemoved = new ArrayList();
+        arrayRemoved.add("Phase removed");
+        arrayRemoved.add("PLAN");
+        arrayRemoved.add("DLD");
+        arrayRemoved.add("CODE");
+        arrayRemoved.add("COMPILE");
+        arrayRemoved.add("UT");
+        arrayRemoved.add("PM");
+
+        listaType = view.findViewById(R.id.spinnerTypeDefect);
+        ArrayAdapter<CharSequence> adapterType = new ArrayAdapter(getContext(),R.layout.support_simple_spinner_dropdown_item,arrayType);
+        listaType.setAdapter(adapterType);
+        listaType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position != 0){
+                    seleccionaType = arrayType.get(position).toString();
+                    Toast.makeText(getContext(),"Type " + seleccionaType,Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        listaInjected = view.findViewById(R.id.spinnerPhaseInjectedDefect);
+        ArrayAdapter<CharSequence> adapterInjected = new ArrayAdapter(getContext(),R.layout.support_simple_spinner_dropdown_item,arrayInjected);
+        listaInjected.setAdapter(adapterInjected);
+        listaInjected.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position != 0){
+                    seleccionaInjected = arrayInjected.get(position).toString();
+                    Toast.makeText(getContext(),"Injected " + seleccionaInjected,Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        listaRemoved = view.findViewById(R.id.spinnerPhaseRemovedDefect);
+        ArrayAdapter<CharSequence> adapterRemove = new ArrayAdapter(getContext(),R.layout.support_simple_spinner_dropdown_item,arrayRemoved);
+        listaRemoved.setAdapter(adapterRemove);
+        listaRemoved.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position !=0){
+                    seleccionaRemoved = arrayRemoved.get(position).toString();
+                    Toast.makeText(getContext(),"Remove " + seleccionaRemoved,Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         tiempo = view.findViewById(R.id.tiempoChro);
         start = view.findViewById(R.id.star);
-        stop = view.findViewById(R.id.stop);
-        restart = view.findViewById(R.id.restart);
+        stop=view.findViewById(R.id.stop);
+        restart=view.findViewById(R.id.restart);
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 tiempoStar();
             }
         });
-        stop.setOnClickListener(new View.OnClickListener() {
+        campoDate = view.findViewById(R.id.campoDateDefect);
+        campoDefectDescription = view.findViewById(R.id.campoDefectDescription);
+        btnDate = view.findViewById(R.id.btnDateDefec);
+        btnDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tiempoStop();
+                asignarFechaCampo();
             }
         });
-        restart.setOnClickListener(new View.OnClickListener() {
+        btnRegistrar = view.findViewById(R.id.btnRegistrarDefect);
+        btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                timeRestart();
+                registrarDefecto();
             }
         });
+
         return view;
     }
 
-    private void timeRestart() {
-        tiempo.setBase(SystemClock.elapsedRealtime());
-        tiempo.stop();
-        inciar=false;
+    private void asignarFechaCampo() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yy-mm-dd hh:mm:ss", Locale.getDefault());
+        Date date = new Date();
+        fecha = dateFormat.format(date);
+        campoDate.setText(fecha);
     }
 
-    private void tiempoStop() {
-        if (inciar==true) {
-            tiempo.stop();
-            dato = ((SystemClock.elapsedRealtime() - tiempo.getBase()) / 1000);
-            if (dato > 60) {
-                dato = dato / 60;
-            }
-            Toast.makeText(getContext(), "" + dato, Toast.LENGTH_SHORT).show();
-            inciar=false;
-        }else {
-            Toast.makeText(getContext(), "Primero inicie el tiempo", Toast.LENGTH_SHORT).show();
+    private void registrarDefecto() {
+        defectDecriptionR = campoDefectDescription.getText().toString();
+        db = conn.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        if (campoDate.getText().equals("") || campoDefectDescription.equals("")) {
+            Toast.makeText(getContext(), "Llene todos los campos", Toast.LENGTH_SHORT).show();
+        } else {
+            values.put(Utilidades.CAMPO_DATE, fecha);
+            values.put(Utilidades.CAMPO_TYPE, seleccionaType);
+            values.put(Utilidades.CAMPO_PHASE_INJECTED, seleccionaInjected);
+            values.put(Utilidades.CAMPO_EXITIME, "tiepoCrono");
+            values.put(Utilidades.CAMPO_DEFECT_DESCRIPTION, defectDecriptionR);
+
+            long registroExitoso = db.insert(Utilidades.NOMBRE_TABLA_DEFECT, Utilidades.CAMPO_ID, values);
         }
     }
-
     private void tiempoStar() {
-        inciar=true;
-        int stoppedMilliseconds = 0;
-        String chronoText = tiempo.getText().toString();
-        String array[] = chronoText.split(":");
-        if (array.length == 2) {
-            stoppedMilliseconds = Integer.parseInt(array[0]) * 60 *
-                    1000
-                    + Integer.parseInt(array[1]) * 1000;
-        } else if (array.length == 3) {
-            stoppedMilliseconds = Integer.parseInt(array[0]) * 60 * 60
-                    * 1000
-                    + Integer.parseInt(array[1]) * 60 * 1000
-                    + Integer.parseInt(array[2]) * 1000;
-        }
-
-        tiempo.setBase(SystemClock.elapsedRealtime() -
-                stoppedMilliseconds);
         tiempo.start();
 
     }

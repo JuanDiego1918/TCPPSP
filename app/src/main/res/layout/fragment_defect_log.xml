@@ -30,6 +30,8 @@
             android:text="Date"/>
 
         <EditText android:layout_columnWeight="2"
+            android:id="@+id/campoDateDefect"
+            android:gravity="center_horizontal"
             android:layout_columnSpan="2"
             android:editable="false"/>
 
@@ -38,29 +40,25 @@
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
         android:columnCount="3">
 
         <Spinner
             android:id="@+id/spinnerTypeDefect"
             android:layout_height="wrap_content"
             android:layout_columnSpan="2"
-            android:layout_columnWeight="2"
-            android:layout_marginBottom="10dp">
+            android:layout_columnWeight="2">
         </Spinner>
 
         <Spinner
             android:id="@+id/spinnerPhaseInjectedDefect"
             android:layout_columnWeight="2"
-            android:layout_columnSpan="2"
-            android:layout_marginBottom="10dp">
+            android:layout_columnSpan="2">
         </Spinner>
 
         <Spinner
             android:id="@+id/spinnerPhaseRemovedDefect"
             android:layout_columnWeight="2"
-            android:layout_columnSpan="2"
-            android:layout_marginBottom="10dp">
+            android:layout_columnSpan="2">
         </Spinner>
 
     </GridLayout>
@@ -102,6 +100,7 @@
 
         <EditText android:layout_columnWeight="3"
             android:hint="DEFECT DESCRIPTION"
+            android:id="@+id/campoDefectDescription"
             android:gravity="center_horizontal"
             android:inputType="textMultiLine"
             android:layout_columnSpan="3"/>
