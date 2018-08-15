@@ -72,21 +72,25 @@
 
         <Chronometer android:layout_columnWeight="3"
             android:gravity="center_horizontal"
-            android:layout_columnSpan="3" />
+            android:layout_columnSpan="3"
+            android:id="@+id/tiempoChro"/>
 
         <Button android:layout_columnWeight="1"
             android:layout_columnSpan="1"
             android:layout_width="22dp"
-            android:text="Start"/>
+            android:text="Start"
+            android:id="@+id/star"/>
 
         <Button android:layout_columnWeight="1"
             android:layout_columnSpan="1"
             android:layout_width="22dp"
-            android:text="Stop"/>
+            android:text="Stop"
+            android:id="@+id/stop"/>
         <Button android:layout_columnWeight="1"
             android:layout_columnSpan="1"
             android:layout_width="22dp"
-            android:text="Restart"/>
+            android:text="Restart"
+            android:id="@+id/restart"/>
 
     </GridLayout>
 

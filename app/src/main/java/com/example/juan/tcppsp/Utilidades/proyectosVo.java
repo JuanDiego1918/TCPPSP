@@ -3,6 +3,7 @@ package com.example.juan.tcppsp.Utilidades;
 public class proyectosVo {
 
     private String nombre;
+    private int id;
 
     public String getNombre() {
         return nombre;
@@ -12,5 +13,11 @@ public class proyectosVo {
         this.nombre = nombre;
     }
 
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 }
