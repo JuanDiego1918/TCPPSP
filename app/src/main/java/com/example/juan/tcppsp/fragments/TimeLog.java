@@ -55,6 +55,7 @@ public class TimeLog extends Fragment {
 
     String fecha1,fecha2;
     String phase;
+    ////
     Spinner listaPhase;
     ArrayList arrayPhase;
     public TimeLog() {
