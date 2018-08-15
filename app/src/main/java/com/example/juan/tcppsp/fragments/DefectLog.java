@@ -2,6 +2,7 @@ package com.example.juan.tcppsp.fragments;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,7 +21,9 @@ import android.widget.Toast;
 
 import com.example.juan.tcppsp.R;
 import com.example.juan.tcppsp.Utilidades.Conexion;
+import com.example.juan.tcppsp.Utilidades.Proyecto;
 import com.example.juan.tcppsp.Utilidades.Utilidades;
+import com.example.juan.tcppsp.Utilidades.proyectosVo;
 import com.example.juan.tcppsp.principal.Secundaria;
 
 import java.text.SimpleDateFormat;
@@ -255,10 +258,14 @@ public class DefectLog extends Fragment {
             values.put(Utilidades.CAMPO_DATE, fecha);
             values.put(Utilidades.CAMPO_TYPE, seleccionaType);
             values.put(Utilidades.CAMPO_PHASE_INJECTED, seleccionaInjected);
-            values.put(Utilidades.CAMPO_EXITIME, "tiepoCrono");
+            values.put(Utilidades.CAMPO_PHASE_REMOVE, seleccionaRemoved);
+            values.put(Utilidades.CAMPO_EXITIME,dato);
             values.put(Utilidades.CAMPO_DEFECT_DESCRIPTION, defectDecriptionR);
+            values.put(Utilidades.CAMPO_ID_DEFECT, Proyecto.id);
+            long registroExitoso = db.insert(Utilidades.NOMBRE_TABLA_DEFECT, Utilidades.CAMPO_ID_DEFECT, values);
+            Toast.makeText(getContext(), "Registro Exitoso ", Toast.LENGTH_SHORT).show();
 
-            long registroExitoso = db.insert(Utilidades.NOMBRE_TABLA_DEFECT, Utilidades.CAMPO_ID, values);
+
         }
     }
 
