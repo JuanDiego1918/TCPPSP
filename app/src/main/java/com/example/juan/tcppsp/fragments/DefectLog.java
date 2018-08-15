@@ -264,8 +264,6 @@ public class DefectLog extends Fragment {
             values.put(Utilidades.CAMPO_ID_DEFECT, Proyecto.id);
             long registroExitoso = db.insert(Utilidades.NOMBRE_TABLA_DEFECT, Utilidades.CAMPO_ID_DEFECT, values);
             Toast.makeText(getContext(), "Registro Exitoso ", Toast.LENGTH_SHORT).show();
-
-
         }
     }
 
