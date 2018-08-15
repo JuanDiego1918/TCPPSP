@@ -3,14 +3,22 @@ package com.example.juan.tcppsp.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.DatePicker;
+import android.widget.Toast;
 
 import com.example.juan.tcppsp.R;
+
+import java.text.DateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.zip.DataFormatException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,6 +47,8 @@ public class DefectLog extends Fragment {
     View view;
     Chronometer tiempo;
     Button start, stop, restart;
+    boolean inciar, despausa;
+    long dato;
 
     /**
      * Use this factory method to create a new instance of
@@ -74,20 +84,69 @@ public class DefectLog extends Fragment {
         view = inflater.inflate(R.layout.fragment_defect_log, container, false);
         tiempo = view.findViewById(R.id.tiempoChro);
         start = view.findViewById(R.id.star);
-        stop=view.findViewById(R.id.stop);
-        restart=view.findViewById(R.id.restart);
+        stop = view.findViewById(R.id.stop);
+        restart = view.findViewById(R.id.restart);
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 tiempoStar();
             }
         });
+        stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tiempoStop();
+            }
+        });
+        restart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timeRestart();
+            }
+        });
         return view;
     }
 
+    private void timeRestart() {
+        tiempo.setBase(SystemClock.elapsedRealtime());
+        tiempo.stop();
+        inciar=false;
+    }
+
+    private void tiempoStop() {
+        if (inciar==true) {
+            tiempo.stop();
+            dato = ((SystemClock.elapsedRealtime() - tiempo.getBase()) / 1000);
+            if (dato > 60) {
+                dato = dato / 60;
+            }
+            Toast.makeText(getContext(), "" + dato, Toast.LENGTH_SHORT).show();
+            inciar=false;
+        }else {
+            Toast.makeText(getContext(), "Primero inicie el tiempo", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void tiempoStar() {
+        inciar=true;
+        int stoppedMilliseconds = 0;
+        String chronoText = tiempo.getText().toString();
+        String array[] = chronoText.split(":");
+        if (array.length == 2) {
+            stoppedMilliseconds = Integer.parseInt(array[0]) * 60 *
+                    1000
+                    + Integer.parseInt(array[1]) * 1000;
+        } else if (array.length == 3) {
+            stoppedMilliseconds = Integer.parseInt(array[0]) * 60 * 60
+                    * 1000
+                    + Integer.parseInt(array[1]) * 60 * 1000
+                    + Integer.parseInt(array[2]) * 1000;
+        }
+
+        tiempo.setBase(SystemClock.elapsedRealtime() -
+                stoppedMilliseconds);
         tiempo.start();
-        
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
