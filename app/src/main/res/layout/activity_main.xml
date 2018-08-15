@@ -1,11 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".principal.MainActivity">
+    android:orientation="vertical"
+    tools:context=".principal.MainActivity"
+    android:padding="12dp">
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="3">
+
+        <EditText android:layout_width="wrap_content"
+            android:layout_columnSpan="3"
+            android:layout_columnWeight="3"
+            android:hint="Nombre Proyecto"
+            android:id="@+id/campoNombreProyecto"/>
+
+        <EditText android:layout_width="wrap_content"
+            android:layout_columnSpan="3"
+            android:layout_columnWeight="3"
+            android:hint="Tiempo demora proyecto, (en minutos)"
+            android:id="@+id/campoTiempoProyecto"/>
+
+        <Button android:layout_columnWeight="3"
+            android:layout_columnSpan="3"
+            android:text="Registrar"
+            android:id="@+id/btnRegistrarProyectos"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerProyectos"
+            android:layout_width="match_parent"
+            android:layout_marginTop="12dp"></android.support.v7.widget.RecyclerView>
+    </GridLayout>
 
 
-
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
