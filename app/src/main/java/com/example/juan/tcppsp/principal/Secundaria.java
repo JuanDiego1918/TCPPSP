@@ -25,6 +25,8 @@ public class Secundaria extends AppCompatActivity {
                 startActivity(intent2);
                 break;
 
+                //SOPLA NUCAS
+
             case R.id.btnDefectLog:
                 miBundle.putInt("pantalla",1);
                 intent.putExtra("dato",miBundle);
