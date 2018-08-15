@@ -29,7 +29,7 @@ public class Utilidades {
     public static final String CREAR_TABLA_DEFECT = "CREATE TABLE " + NOMBRE_TABLA_DEFECT + " ( "
             + CAMPO_DATE + " DATE, "
             + CAMPO_TYPE + " VARCHAR ," + CAMPO_PHASE_INJECTED + " VARCHAR," + CAMPO_PHASE_REMOVE + " VARCHAR,"
-            + CAMPO_EXITIME + " INT" + CAMPO_DEFECT_DESCRIPTION + " VARHCAR," + CAMPO_ID_DEFECT + " INT AUTO_INCREMENT)";
+            + CAMPO_EXITIME + " INT, " + CAMPO_DEFECT_DESCRIPTION + " VARHCAR," + CAMPO_ID_DEFECT + " INT AUTO_INCREMENT)";
 
     public static final String NOMBRE_TABLA_PROYECTOS = "proyectos";
     public static final String CAMPO_NOMBRE_PROYECTO = "nombre_proyetos";
