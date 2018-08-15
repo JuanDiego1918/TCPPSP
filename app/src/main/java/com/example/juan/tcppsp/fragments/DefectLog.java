@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.juan.tcppsp.R;
 import com.example.juan.tcppsp.Utilidades.Conexion;
 import com.example.juan.tcppsp.Utilidades.Utilidades;
+import com.example.juan.tcppsp.principal.Secundaria;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -72,6 +73,7 @@ public class DefectLog extends Fragment {
     ////////////////////////////////
     long dato;
     boolean inciar;
+
 
     /**
      * Use this factory method to create a new instance of

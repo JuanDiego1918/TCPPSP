@@ -9,11 +9,11 @@ import android.widget.Chronometer;
 import android.widget.Toast;
 
 import com.example.juan.tcppsp.R;
+import com.example.juan.tcppsp.Utilidades.Proyecto;
 
 public class Secundaria extends AppCompatActivity {
 
-    int id;
-    String proyecto;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,9 +23,9 @@ public class Secundaria extends AppCompatActivity {
         Bundle miBundle=getIntent().getBundleExtra("proyecto");
 
         if (miBundle!=null){
-            proyecto=miBundle.getString("nombre");
-            id=miBundle.getInt("id");
-            Toast.makeText(getApplicationContext(),id+ " "+proyecto,Toast.LENGTH_SHORT).show();
+            Proyecto.proyecto=miBundle.getString("nombre");
+            Proyecto.id=miBundle.getInt("id");
+            Toast.makeText(getApplicationContext(),Proyecto.id+ " "+Proyecto.proyecto,Toast.LENGTH_SHORT).show();
         }
 
 
