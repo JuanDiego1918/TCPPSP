@@ -49,9 +49,11 @@ public class DefectLog extends Fragment {
     private String mParam1;
     private String mParam2;
     private OnFragmentInteractionListener mListener;
+
     public DefectLog() {
         // Required empty public constructor
     }
+
     Conexion conn;
     SQLiteDatabase db;
     ////////////////////////////////
@@ -61,11 +63,11 @@ public class DefectLog extends Fragment {
     String seleccionaRemoved;
     String defectDecriptionR;
     ////////////////////////////////
-    EditText campoDate,campoDefectDescription;
+    EditText campoDate, campoDefectDescription;
     ////////////////////////////////
     View view;
     Chronometer tiempo;
-    Button start, stop, restart,btnRegistrar,btnDate;
+    Button start, stop, restart, btnRegistrar, btnDate;
     ////////////////////////////////
     Spinner listaType;
     Spinner listaInjected;
@@ -144,14 +146,13 @@ public class DefectLog extends Fragment {
         arrayRemoved.add("PM");
 
         listaType = view.findViewById(R.id.spinnerTypeDefect);
-        ArrayAdapter<CharSequence> adapterType = new ArrayAdapter(getContext(),R.layout.support_simple_spinner_dropdown_item,arrayType);
+        ArrayAdapter<CharSequence> adapterType = new ArrayAdapter(getContext(), R.layout.support_simple_spinner_dropdown_item, arrayType);
         listaType.setAdapter(adapterType);
         listaType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position != 0){
+                if (position != 0) {
                     seleccionaType = arrayType.get(position).toString();
-                    Toast.makeText(getContext(),"Type " + seleccionaType,Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -163,14 +164,13 @@ public class DefectLog extends Fragment {
 
 
         listaInjected = view.findViewById(R.id.spinnerPhaseInjectedDefect);
-        ArrayAdapter<CharSequence> adapterInjected = new ArrayAdapter(getContext(),R.layout.support_simple_spinner_dropdown_item,arrayInjected);
+        ArrayAdapter<CharSequence> adapterInjected = new ArrayAdapter(getContext(), R.layout.support_simple_spinner_dropdown_item, arrayInjected);
         listaInjected.setAdapter(adapterInjected);
         listaInjected.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position != 0){
+                if (position != 0) {
                     seleccionaInjected = arrayInjected.get(position).toString();
-                    Toast.makeText(getContext(),"Injected " + seleccionaInjected,Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -182,14 +182,13 @@ public class DefectLog extends Fragment {
 
 
         listaRemoved = view.findViewById(R.id.spinnerPhaseRemovedDefect);
-        ArrayAdapter<CharSequence> adapterRemove = new ArrayAdapter(getContext(),R.layout.support_simple_spinner_dropdown_item,arrayRemoved);
+        ArrayAdapter<CharSequence> adapterRemove = new ArrayAdapter(getContext(), R.layout.support_simple_spinner_dropdown_item, arrayRemoved);
         listaRemoved.setAdapter(adapterRemove);
         listaRemoved.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position !=0){
+                if (position != 0) {
                     seleccionaRemoved = arrayRemoved.get(position).toString();
-                    Toast.makeText(getContext(),"Remove " + seleccionaRemoved,Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -201,8 +200,8 @@ public class DefectLog extends Fragment {
 
         tiempo = view.findViewById(R.id.tiempoChro);
         start = view.findViewById(R.id.star);
-        stop=view.findViewById(R.id.stop);
-        restart=view.findViewById(R.id.restart);
+        stop = view.findViewById(R.id.stop);
+        restart = view.findViewById(R.id.restart);
         campoDate = view.findViewById(R.id.campoDateDefect);
         campoDefectDescription = view.findViewById(R.id.campoDefectDescription);
         btnDate = view.findViewById(R.id.btnDateDefec);
@@ -259,34 +258,38 @@ public class DefectLog extends Fragment {
             values.put(Utilidades.CAMPO_TYPE, seleccionaType);
             values.put(Utilidades.CAMPO_PHASE_INJECTED, seleccionaInjected);
             values.put(Utilidades.CAMPO_PHASE_REMOVE, seleccionaRemoved);
-            values.put(Utilidades.CAMPO_EXITIME,dato);
+            values.put(Utilidades.CAMPO_EXITIME, dato);
             values.put(Utilidades.CAMPO_DEFECT_DESCRIPTION, defectDecriptionR);
             values.put(Utilidades.CAMPO_ID_DEFECT, Proyecto.id);
             long registroExitoso = db.insert(Utilidades.NOMBRE_TABLA_DEFECT, Utilidades.CAMPO_ID_DEFECT, values);
             Toast.makeText(getContext(), "Registro Exitoso ", Toast.LENGTH_SHORT).show();
+            campoDate.setText(null);
+            campoDefectDescription.setText(null);
+            timeRestart();
         }
     }
 
     private void timeRestart() {
         tiempo.setBase(SystemClock.elapsedRealtime());
         tiempo.stop();
-        inciar=false;
+        inciar = false;
     }
+
     private void tiempoStop() {
-        if (inciar==true) {
+        if (inciar == true) {
             tiempo.stop();
             dato = ((SystemClock.elapsedRealtime() - tiempo.getBase()) / 1000);
             if (dato > 60) {
                 dato = dato / 60;
             }
-            Toast.makeText(getContext(), "" + dato, Toast.LENGTH_SHORT).show();
-            inciar=false;
-        }else {
+            inciar = false;
+        } else {
             Toast.makeText(getContext(), "Primero inicie el tiempo", Toast.LENGTH_SHORT).show();
         }
     }
+
     private void tiempoStar() {
-        inciar=true;
+        inciar = true;
         int stoppedMilliseconds = 0;
         String chronoText = tiempo.getText().toString();
         String array[] = chronoText.split(":");
