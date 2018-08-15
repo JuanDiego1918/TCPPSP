@@ -26,6 +26,7 @@
         <Button android:layout_columnWeight="1"
             android:layout_columnSpan="1"
             android:layout_width="22dp"
+            android:id="@+id/btnDateDefec"
             android:text="Date"/>
 
         <EditText android:layout_columnWeight="2"
@@ -41,6 +42,7 @@
         android:columnCount="3">
 
         <Spinner
+            android:id="@+id/spinnerTypeDefect"
             android:layout_height="wrap_content"
             android:layout_columnSpan="2"
             android:layout_columnWeight="2"
@@ -48,12 +50,14 @@
         </Spinner>
 
         <Spinner
+            android:id="@+id/spinnerPhaseInjectedDefect"
             android:layout_columnWeight="2"
             android:layout_columnSpan="2"
             android:layout_marginBottom="10dp">
         </Spinner>
 
         <Spinner
+            android:id="@+id/spinnerPhaseRemovedDefect"
             android:layout_columnWeight="2"
             android:layout_columnSpan="2"
             android:layout_marginBottom="10dp">
@@ -83,6 +87,26 @@
             android:layout_columnSpan="1"
             android:layout_width="22dp"
             android:text="Restart"/>
+
+    </GridLayout>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:layout_marginTop="22dp">
+
+        <EditText android:layout_columnWeight="3"
+            android:hint="DEFECT DESCRIPTION"
+            android:gravity="center_horizontal"
+            android:inputType="textMultiLine"
+            android:layout_columnSpan="3"/>
+
+        <Button android:layout_columnWeight="3"
+            android:layout_columnSpan="3"
+            android:layout_width="22dp"
+            android:id="@+id/btnRegistrarDefect"
+            android:text="REGISTRAR" />
 
     </GridLayout>
 
