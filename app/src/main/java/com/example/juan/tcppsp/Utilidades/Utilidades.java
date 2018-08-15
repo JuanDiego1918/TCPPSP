@@ -15,4 +15,26 @@ public class Utilidades {
             + CAMPO_PHASE + " VARCHAR, "
             + CAMPO_START + " INT ," + CAMPO_INTERRUPTION + " VARCHAR," + CAMPO_STOP + " INT,"
             + CAMPO_DELTA + " INT" + CAMPO_COMMENTS + " VARHCAR)";
+
+    public static final String NOMBRE_TABLA_DEFECT = "defect_log";
+    public static final String CAMPO_DATE = "date";
+    public static final String CAMPO_TYPE = "type";
+    public static final String CAMPO_PHASE_INJECTED = "phase_injected";
+    public static final String CAMPO_PHASE_REMOVE = "remove";
+    public static final String CAMPO_EXITIME = "exitime";
+    public static final String CAMPO_DEFECT_DESCRIPTION = "defect_description";
+
+    public static final String CREAR_TABLA_DEFECT = "CREATE TABLE " + NOMBRE_TABLA_DEFECT + " ( "
+            + CAMPO_DATE + " DATE, "
+            + CAMPO_TYPE + " VARCHAR ," + CAMPO_PHASE_INJECTED + " VARCHAR," + CAMPO_PHASE_REMOVE + " VARCHAR,"
+            + CAMPO_EXITIME + " INT" + CAMPO_DEFECT_DESCRIPTION + " VARHCAR)";
+
+    public static final String NOMBRE_TABLA_PROYECTOS = "proyectos";
+    public static final String CAMPO_NOMBRE_PROYECTO = "nombre_proyetos";
+    public static final String CAMPO_ID = "id";
+    public static final String CAMPO_TIEMPO = "tiempo";
+
+    public static final String CREAR_TABLA_PROYECTO = "CREATE TABLE " + NOMBRE_TABLA_PROYECTOS + " ( "
+            + CAMPO_NOMBRE_PROYECTO + " VARCHAR, "
+            + CAMPO_ID + " INT ," + CAMPO_TIEMPO + " INT)";
 }
