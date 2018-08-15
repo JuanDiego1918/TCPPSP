@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Chronometer;
 
 import com.example.juan.tcppsp.R;
 
@@ -33,6 +35,10 @@ public class DefectLog extends Fragment {
     public DefectLog() {
         // Required empty public constructor
     }
+
+    View view;
+    Chronometer tiempo;
+    Button start, stop, restart;
 
     /**
      * Use this factory method to create a new instance of
@@ -65,7 +71,23 @@ public class DefectLog extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_defect_log, container, false);
+        view = inflater.inflate(R.layout.fragment_defect_log, container, false);
+        tiempo = view.findViewById(R.id.tiempoChro);
+        start = view.findViewById(R.id.star);
+        stop=view.findViewById(R.id.stop);
+        restart=view.findViewById(R.id.restart);
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tiempoStar();
+            }
+        });
+        return view;
+    }
+
+    private void tiempoStar() {
+        tiempo.start();
+        
     }
 
     // TODO: Rename method, update argument and hook method into UI event

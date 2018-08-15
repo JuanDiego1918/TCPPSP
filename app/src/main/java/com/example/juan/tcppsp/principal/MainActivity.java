@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         listaProyectos = new ArrayList<>();
         bd = conn.getReadableDatabase();
 
-
+//opaskd
         Cursor cursor = bd.rawQuery("SELECT * FROM " + Utilidades.NOMBRE_TABLA_PROYECTOS, null);
 
         while (cursor.moveToNext()) {
